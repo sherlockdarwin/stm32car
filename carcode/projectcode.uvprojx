@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\user;.\start;.\library</IncludePath>
+              <IncludePath>.\user;.\start;.\library;.\hardware;.\system</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -669,6 +669,46 @@
               <FileName>stm32f10x_it.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\user\stm32f10x_it.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>system</GroupName>
+          <Files>
+            <File>
+              <FileName>sys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system\sys.c</FilePath>
+            </File>
+            <File>
+              <FileName>sys.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\system\sys.h</FilePath>
+            </File>
+            <File>
+              <FileName>carmotor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system\carmotor.c</FilePath>
+            </File>
+            <File>
+              <FileName>carmotor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\system\carmotor.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>hardware</GroupName>
+          <Files>
+            <File>
+              <FileName>trackusart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\trackusart.c</FilePath>
+            </File>
+            <File>
+              <FileName>trackusart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\trackusart.h</FilePath>
             </File>
           </Files>
         </Group>
