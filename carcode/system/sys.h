@@ -1,9 +1,6 @@
 #ifndef __SYS_H
 #define __SYS_H	  
 
-#define true 1
-#definr false 0
-
 #include "stm32f10x.h"
 
 #include <string.h> 

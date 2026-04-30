@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\user;.\start;.\library;.\hardware;.\system</IncludePath>
+              <IncludePath>.\user;.\start;.\library;.\hardware;.\system;.\trackapp</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -695,6 +695,16 @@
               <FileType>5</FileType>
               <FilePath>.\system\carmotor.h</FilePath>
             </File>
+            <File>
+              <FileName>encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system\encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>encoder.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\system\encoder.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -710,7 +720,20 @@
               <FileType>5</FileType>
               <FilePath>.\hardware\trackusart.h</FilePath>
             </File>
+            <File>
+              <FileName>motorusart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\motorusart.c</FilePath>
+            </File>
+            <File>
+              <FileName>motorusart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\motorusart.h</FilePath>
+            </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>trackapp</GroupName>
         </Group>
       </Groups>
     </Target>
