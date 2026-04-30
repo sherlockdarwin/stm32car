@@ -1,5 +1,5 @@
-#ifndef __TRACKUSART_H
-#define __TRACKUSART_H
+#ifndef __MOTORUSART_H
+#define __MOTORUSART_H
 
 #include "stm32f10x.h"
 #include <stdio.h>
