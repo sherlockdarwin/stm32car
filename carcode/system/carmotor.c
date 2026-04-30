@@ -1,5 +1,15 @@
 #include "stm32f10x.h"                  // Device header
-#include "carmotor.h"
+
+
+#define AIN1   GPIO_Pin_5
+#define AIN2   GPIO_Pin_4
+#define PWMA   GPIO_Pin_0
+
+#define BIN1   GPIO_Pin_4                  //PB4
+#define BIN2   GPIO_Pin_3                 //PB3  
+#define PWMB   GPIO_Pin_1
+
+#define STBY   GPIO_Pin_12
 
 void Motor_Init(void)
 {
@@ -64,7 +74,7 @@ void PWM_Init(void)
 	TIM2->CCR1 = 0;  //PA0
 	TIM2->CCR2 = 0;		//PA1
 	
-	STBY=1; //
+	GPIO_SetBits(GPIOA, STBY);
 }
 
 
