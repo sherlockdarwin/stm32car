@@ -78,7 +78,9 @@ void PWM_Init(void)
 }
 
 
-
+void Set_Pwm(int motor_left,int motor_right)
+{
+}
 
 
 
