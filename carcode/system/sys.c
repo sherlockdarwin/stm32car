@@ -25,6 +25,7 @@ void delay_us(unsigned int n)
 	while(n--)
     for(j=0;j<10;j++);
 }
+
 void delay_ms(unsigned int n)
 {
 	while(n--)
