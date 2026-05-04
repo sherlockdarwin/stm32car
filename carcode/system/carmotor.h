@@ -1,6 +1,5 @@
 #ifndef __CARMOTOR_H
 #define __CARMOTOR_H	
-#include "sys.h"
 
 
 #define AIN1   GPIO_Pin_5

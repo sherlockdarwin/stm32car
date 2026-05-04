@@ -1,7 +1,6 @@
 #ifndef __TRACKUSART_H
 #define __TRACKUSART_H
 
-#include "sys.h"
 
 #define AD0_PIN          GPIO_Pin_15
 #define AD1_PIN          GPIO_Pin_14

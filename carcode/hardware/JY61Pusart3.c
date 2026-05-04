@@ -1,4 +1,4 @@
-#include "JY61Pusart3.h"
+#include "sys.h"
 uint8_t data_to_send[64];                  //发送数据缓存
 
 #pragma import(__use_no_semihosting)
@@ -83,7 +83,7 @@ USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
 
 NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
 
-NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2; // 优先级根据你工程调整
+NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1; // 优先级根据你工程调整
 
 NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
 

@@ -1,4 +1,4 @@
-#include "carmotor.h"
+#include "sys.h"
 
 void Motor_Init(void)
 {
@@ -23,7 +23,6 @@ void PWM_Init(void)
 	TIM_TimeBaseInitTypeDef TIM_timeBaseInitStructure;
 	TIM_OCInitTypeDef TIM_OCInitStructure;
 		
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO,ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);	
     
 	GPIO_initStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1;

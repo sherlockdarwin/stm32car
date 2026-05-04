@@ -1,5 +1,4 @@
-#include "encoder.h"
-#include "stm32f10x_gpio.h"
+#include "sys.h"
 //TIM3  PA6 PA7
 void Encoder_A_init(void)
 {

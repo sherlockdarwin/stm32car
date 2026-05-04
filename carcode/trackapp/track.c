@@ -1,6 +1,4 @@
-#include "track.h"
-#include "trackusart.h"
-#include "carmotor.h"
+#include "sys.h"
 
 extern uint16_t sensor_data[8];
 line_following line_controller;

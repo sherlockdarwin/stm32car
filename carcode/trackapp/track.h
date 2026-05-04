@@ -1,9 +1,6 @@
 #ifndef __TRACK_H
 #define __TRACK_H
 
-#include "trackusart.h"
-#include "sys.h"
-
 
 #define PID_MOTOR_KP  (1.5f)
 #define PID_MOTOR_KI  (0.08f)
