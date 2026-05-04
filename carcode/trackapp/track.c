@@ -1,10 +1,11 @@
 #include "track.h"
+#include "trackusart.h"
 
 extern uint16_t sensor_data[8];
-line_following_t line_controller;
+line_following line_controller;
 
 // 巡线参数初始化 Initialize line following parameters
-void line_following_init(line_following_t* controller)
+void line_following_init(line_following* controller)
 {
     controller->kp = 270.0f;    // 比例系数 | proportional gain
     controller->ki = 0.5f;      // 积分系数 | integral gain
@@ -40,7 +41,7 @@ static inline int16_t clamp_int16(int16_t value, int16_t min_val, int16_t max_va
     return value;
 }
 
-bool check_sensors_safe(line_following_t* controller, uint16_t* sensor_values) {
+bool check_sensors_safe(line_following* controller, uint16_t* sensor_values) {
 // 上电安全锁检查，当传感器全亮或全灭时不启动小车，防止乱跑
     uint16_t first_value = sensor_values[0];
 
@@ -51,7 +52,7 @@ bool check_sensors_safe(line_following_t* controller, uint16_t* sensor_values) {
     return false;  // 传感器全亮或全灭，不安全
 }
 
-float calculate_error(line_following_t* controller, uint16_t* sensor_values, uint16_t line_raw_value)
+float calculate_error(line_following* controller, uint16_t* sensor_values, uint16_t line_raw_value)
 {
 //计算偏差值
     float weighted_sum = 0.0f;
@@ -76,15 +77,14 @@ float calculate_error(line_following_t* controller, uint16_t* sensor_values, uin
     return error;
 }
 
-float pid_control(line_following_t* controller, float error)
+float pid_control(line_following* controller, float error)
 {
 
     if (fabsf(error) < 0.6f) {
         error = 0.0f;
     }
 
-    if ((controller->last_error > 0 && error < 0) ||
-        (controller->last_error < 0 && error > 0)) {
+    if ((controller->last_error > 0 && error < 0) ||(controller->last_error < 0 && error > 0)) {
         controller->integral = 0.0f;  // 偏差过零，清空积分/ Clear integral when deviation crosses zero
     }
 
@@ -116,7 +116,7 @@ float pid_control(line_following_t* controller, float error)
     return output;
 }
 
-void differential_speed_control(line_following_t* controller, float pid_output, int16_t* left_speed, int16_t* right_speed)
+void differential_speed_control(line_following* controller, float pid_output, int16_t* left_speed, int16_t* right_speed)
 {
 
     int16_t left = controller->base_speed + (int16_t)pid_output;
@@ -127,7 +127,7 @@ void differential_speed_control(line_following_t* controller, float pid_output, 
     *right_speed = clamp_int16(right, -controller->max_speed, controller->max_speed);
 }
 
-void follow_line(line_following_t* controller, uint16_t* sensor_values, uint16_t line_raw_value)
+void follow_line(line_following* controller, uint16_t* sensor_values, uint16_t line_raw_value)
 {
 //巡线主函数 Main line following function
 
@@ -148,7 +148,7 @@ void follow_line(line_following_t* controller, uint16_t* sensor_values, uint16_t
     float pid_output = pid_control(controller, error);
 
     // 差速控制 / Differential speed control
-    int16_t left_speed, right_speed;
+    int left_speed, right_speed;
     differential_speed_control(controller, pid_output, &left_speed, &right_speed);
 
     Set_Pwm(left_speed, right_speed);
