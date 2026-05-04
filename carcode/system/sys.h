@@ -10,7 +10,18 @@
 #include <math.h>
 #include <Time.h>
 
+typedef unsigned char bool;
+#define true  1
+#define false 0
+
+
 #include "carmotor.h"
+#include "trackusart.h"
+#include "track.h"
+#include "motorusart.h"
+#include "encoder.h"
+
+
 
 #define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2)) 
 #define MEM_ADDR(addr)  *((volatile unsigned long  *)(addr)) 

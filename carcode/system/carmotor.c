@@ -1,15 +1,5 @@
 #include "stm32f10x.h"                  // Device header
-
-
-#define AIN1   GPIO_Pin_5
-#define AIN2   GPIO_Pin_4
-#define PWMA   GPIO_Pin_0
-
-#define BIN1   GPIO_Pin_4                  //PB4
-#define BIN2   GPIO_Pin_3                 //PB3  
-#define PWMB   GPIO_Pin_1
-
-#define STBY   GPIO_Pin_12
+#include "carmotor.h"
 
 void Motor_Init(void)
 {
@@ -80,6 +70,47 @@ void PWM_Init(void)
 
 void Set_Pwm(int motor_left,int motor_right)
 {
+	if(motor_left>0)
+	{
+		GPIO_SetBits(GPIOA, AIN2);
+		GPIO_ResetBits(GPIOA, AIN1);
+	}
+	else
+	{
+		GPIO_SetBits(GPIOA, AIN1);
+		GPIO_ResetBits(GPIOA, AIN2);
+	}
+	TIM2->CCR1 = myabs(motor_left);
+	
+	if(motor_right>0)
+	{
+		GPIO_SetBits(GPIOA, BIN1);
+		GPIO_ResetBits(GPIOA, BIN2);
+	}
+	else
+	{
+		GPIO_SetBits(GPIOB, BIN2);
+		GPIO_ResetBits(GPIOA, BIN1);
+	}
+	TIM2->CCR2 = myabs(motor_right);
+}
+
+
+int PWM_Limit(int IN,int max,int min)
+{
+	int OUT = IN;
+	if(OUT>max) OUT = max;
+	if(OUT<min) OUT = min;
+	return OUT;
+}
+
+
+int myabs(int a)
+{
+	int temp;
+	if(a<0)  temp=-a;  
+	else temp=a;
+	return temp;
 }
 
 

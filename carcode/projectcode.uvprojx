@@ -734,6 +734,18 @@
         </Group>
         <Group>
           <GroupName>trackapp</GroupName>
+          <Files>
+            <File>
+              <FileName>track.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\trackapp\track.c</FilePath>
+            </File>
+            <File>
+              <FileName>track.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\trackapp\track.h</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>
