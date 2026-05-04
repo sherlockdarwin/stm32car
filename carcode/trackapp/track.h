@@ -4,6 +4,11 @@
 #include "trackusart.h"
 #include "sys.h"
 
+
+#define PID_MOTOR_KP  (1.5f)
+#define PID_MOTOR_KI  (0.08f)
+#define PID_MOTOR_KD  (0.5f)
+
 typedef struct {
     // PID参数 PID Parameters
     float kp;               // 比例系数 Proportional coefficient

@@ -13,9 +13,9 @@
 
 void Motor_Init(void);
 void PWM_Init(void);
-void Set_Pwm(int motor_left,int motor_right);
-int PWM_Limit(int IN,int max,int min);
-int myabs(int a);
+void Set_Pwm(int motor_left,int motor_right);   //设置pwm
+int PWM_Limit(int IN,int max,int min);   //设置pwm最大最小值
+int myabs(int a);    //绝对值函数
 
 
 

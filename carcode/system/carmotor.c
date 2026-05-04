@@ -96,9 +96,9 @@ void Set_Pwm(int motor_left,int motor_right)
 }
 
 
-int PWM_Limit(int IN,int max,int min)
+static inline float PWM_Limit(float IN,float max,float min)
 {
-	int OUT = IN;
+	float OUT = IN;
 	if(OUT>max) OUT = max;
 	if(OUT<min) OUT = min;
 	return OUT;
