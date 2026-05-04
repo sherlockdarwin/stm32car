@@ -20,6 +20,7 @@ typedef unsigned char bool;
 #include "track.h"   //循迹模块
 #include "motorusart.h"  //将两个电机速度传给vofa。用的usart2
 #include "encoder.h"  //测量两个电机速度
+#include "JY61Pusart3.h"  //读取陀螺仪数据，获取航向角Yaw。用的usart3
 
 
 

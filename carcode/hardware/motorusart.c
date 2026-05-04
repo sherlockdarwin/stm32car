@@ -1,19 +1,20 @@
 #include "motorusart.h"
+#include "motor.h"
 uint8_t data_to_send[64];   
 
 
-#pragma import(__use_no_semihosting)
-struct __FILE
+#pragma motorimport(__use_no_semihosting)
+struct M__FILE
 {
 	int a;
 };
  
-FILE __stdout;
-void _sys_exit(int x)
+M_FILE __stdout;
+void M_sys_exit(int x)
 {
 	
 }
-int fputc(int ch,FILE *f)
+int M_fputc(int ch,M_FILE*f)
 {
     USART2->SR; 
     USART_SendData(USART2, (unsigned char) ch);

@@ -1,7 +1,8 @@
 #ifndef __ENCODER_H
 #define __ENCODER_H
-#include <stdio.h>
-#include <stdint.h>
+
+#include "sys.h"
+
 #define ENCODER_A   1 //TIM3
 #define ENCODER_B   2 //TIM4
 

@@ -1,8 +1,8 @@
 #ifndef __JY61PUSART3_H
 #define __JY61PUSART3_H
 
-#include "stm32f10x.h"
-#include <stdio.h>
+#include "sys.h"
+
 
 // --- 全局变量声明 ---
 // 使用 extern 关键字，让其他文件（如 main.c）能访问解析出的角度
