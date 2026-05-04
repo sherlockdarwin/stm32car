@@ -26,8 +26,6 @@ int M_fputc(int ch,M_FILE*f)
 void usart2_init(uint32_t bound)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 
 	//USART2 Tx(PA.2) 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2; 

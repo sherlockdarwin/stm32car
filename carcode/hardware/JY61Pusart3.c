@@ -31,11 +31,7 @@ NVIC_InitTypeDef NVIC_InitStructure;
 
 
 
-// 1. 开启时钟：注意 USART3 在 APB1，而 GPIOB 在 APB2
-
-RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
-
-RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+// 1. 开启时钟：注意 USART3 在 APB1，而 GPIOB 在 APB2,在sys中统一使能了
 
 
 
