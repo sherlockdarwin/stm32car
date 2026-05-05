@@ -705,6 +705,36 @@
               <FileType>5</FileType>
               <FilePath>.\system\encoder.h</FilePath>
             </File>
+            <File>
+              <FileName>bluetooth.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system\bluetooth.c</FilePath>
+            </File>
+            <File>
+              <FileName>bluetooth.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\system\bluetooth.h</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system\Timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\system\Timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>volight.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system\volight.c</FilePath>
+            </File>
+            <File>
+              <FileName>volight.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\system\volight.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -729,6 +759,71 @@
               <FileName>motorusart.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\hardware\motorusart.h</FilePath>
+            </File>
+            <File>
+              <FileName>JY61Pusart3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\JY61Pusart3.c</FilePath>
+            </File>
+            <File>
+              <FileName>JY61Pusart3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\JY61Pusart3.h</FilePath>
+            </File>
+            <File>
+              <FileName>Key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\Key.c</FilePath>
+            </File>
+            <File>
+              <FileName>Key.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\Key.h</FilePath>
+            </File>
+            <File>
+              <FileName>LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\LED.c</FilePath>
+            </File>
+            <File>
+              <FileName>LED.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\LED.h</FilePath>
+            </File>
+            <File>
+              <FileName>OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>OLED.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\OLED.h</FilePath>
+            </File>
+            <File>
+              <FileName>OLED_Data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\OLED_Data.c</FilePath>
+            </File>
+            <File>
+              <FileName>OLED_Data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\OLED_Data.h</FilePath>
+            </File>
+            <File>
+              <FileName>OLED_Font.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\OLED_Font.h</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\Serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\Serial.h</FilePath>
             </File>
           </Files>
         </Group>
