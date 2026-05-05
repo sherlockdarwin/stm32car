@@ -1,4 +1,4 @@
-#include "sys.h"
+#include "JY61Pusart3.h"
 uint8_t data_to_send[64];                  //发送数据缓存
 
 #pragma import(__use_no_semihosting)
@@ -31,7 +31,11 @@ NVIC_InitTypeDef NVIC_InitStructure;
 
 
 
-// 1. 开启时钟：注意 USART3 在 APB1，而 GPIOB 在 APB2,在sys中统一使能了
+// 1. 开启时钟：注意 USART3 在 APB1，而 GPIOB 在 APB2
+
+RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
+
+RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 
 
 
@@ -83,7 +87,7 @@ USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
 
 NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
 
-NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1; // 优先级根据你工程调整
+NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2; // 优先级根据你工程调整
 
 NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
 
@@ -187,4 +191,66 @@ void USART3_IRQHandler(void)
         
         USART_ClearITPendingBit(USART3, USART_IT_RXNE);
     }
+}
+/* ====================================================== */
+/*          JY61P 专用初始化与指令发送逻辑                */
+/* ====================================================== */
+
+// 指令包定义
+uint8_t JY_UNLOCK[]    = {0xFF, 0xAA, 0x69, 0x88, 0xB5}; // 解锁
+uint8_t JY_SAVE[]      = {0xFF, 0xAA, 0x00, 0x00, 0x00}; // 保存
+uint8_t JY_BAUD_1152[] = {0xFF, 0xAA, 0x04, 0x06, 0x00}; // 设为 115200
+uint8_t JY_RATE_100HZ[]= {0xFF, 0xAA, 0x03, 0x09, 0x00}; // 设为 100Hz
+uint8_t JY_6AXIS[]     = {0xFF, 0xAA, 0x24, 0x01, 0x00}; // 6轴模式
+uint8_t JY_CALI_ACC[]  = {0xFF, 0xAA, 0x01, 0x01, 0x00}; // 静态校准
+
+/**
+ * @brief  JY61P 专用指令发送函数
+ * @note   这里不使用 DMA，因为初始化指令很短，直接用阻塞发送更可靠
+ */
+void JY61P_Send_Cmd(uint8_t *cmd, uint8_t len) {
+    for(uint8_t i = 0; i < len; i++) {
+        USART_SendData(USART3, cmd[i]);
+        // 等待发送完成 (TC位)
+        while(USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
+    }
+}
+
+/**
+ * @brief  JY61P 全套配置流程
+ * @note   Leader提示：此函数在 main 中调用，执行时请保持小车静止
+ */
+void JY61P_Full_Init_Sequence(void) {
+    // 1. 尝试以默认 9600 波特率握手
+    usart3_init(9600); 
+    delay_ms(500); 
+
+    // 2. 解锁并尝试修改波特率到 115200 (对应微信图片逻辑)
+    JY61P_Send_Cmd(JY_UNLOCK, 5);     // 解锁
+    delay_ms(200);                    
+    JY61P_Send_Cmd(JY_BAUD_1152, 5);  // 改波特率指令
+    delay_ms(200);
+
+    // 3. 核心：将 STM32 串口也切到 115200
+    usart3_init(115200); 
+    delay_ms(100);
+
+    // 4. 在新波特率下重新解锁并配置性能参数
+    JY61P_Send_Cmd(JY_UNLOCK, 5);     // 再次解锁
+    delay_ms(200);
+    
+    JY61P_Send_Cmd(JY_RATE_100HZ, 5); // 设置为100Hz回传
+    delay_ms(100);
+    
+    JY61P_Send_Cmd(JY_6AXIS, 5);      // 切换为6轴算法
+    delay_ms(100);
+
+    // 5. 静态校准指令
+    // 发送后，传感器会采集当前加速度计数据作为“平地”参考
+    JY61P_Send_Cmd(JY_CALI_ACC, 5); 
+    delay_ms(100);
+
+    // 6. 保存配置并退出
+    JY61P_Send_Cmd(JY_SAVE, 5);       
+    delay_ms(500); // 留出时间写入Flash
 }
