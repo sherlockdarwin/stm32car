@@ -1,33 +1,33 @@
-#include "motorusart.h"
+#include "sys.h"
+
 uint8_t data_to_send[64];   
 
 
-#pragma import(__use_no_semihosting)
-struct __FILE
+#pragma motorimport(__use_no_semihosting)
+struct M__FILE
 {
 	int a;
 };
  
-FILE __stdout;
-void _sys_exit(int x)
+M_FILE __stdout;
+void M_sys_exit(int x)
 {
 	
 }
-int fputc(int ch,FILE *f)
+int M_fputc(int ch,M_FILE*f)
 {
-    USART1->SR; 
-    USART_SendData(USART1, (unsigned char) ch);
-    while(USART_GetFlagStatus(USART1,USART_FLAG_TC)!=SET);
+    USART2->SR; 
+    USART_SendData(USART2, (unsigned char) ch);
+    while(USART_GetFlagStatus(USART2,USART_FLAG_TC)!=SET);
     return(ch);
 } 
-/* 串口1初始化设置 */
+/* 串口2初始化设置 */
 /* 入口参数：波特率 */
-void usart1_init(uint32_t bound)
+void usart2_init(uint32_t bound)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_USART1, ENABLE);
 
-	//USART1 Tx(PA.09) 
+	//USART1 Tx(PA.9) 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9; 
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; 
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; 
@@ -50,7 +50,16 @@ void usart1_init(uint32_t bound)
 
 	USART_ITConfig(USART1,USART_IT_RXNE,ENABLE); 
 
-	USART_Cmd(USART1, ENABLE);   
+	USART_Cmd(USART1, ENABLE); 
+
+
+	NVIC_InitTypeDef NVIC_InitStructure;    
+   
+    NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;               //通道设置为串口1中断    
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;       //中断占先等级    
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;              //中断响应优先级    
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                 //打开中断    
+    NVIC_Init(&NVIC_InitStructure);   
 }
 /**************************************************************************
 串口DMA通道配置                
@@ -83,8 +92,8 @@ void USARTx_DMA_TX_Config(DMA_Channel_TypeDef* DMA_CHx,u32 peripheral_addr,u32 m
 **************************************************************************/
 void USARTx_DMA_SEND_DATA(u32 SendBuff,u16 len) 
 {
-	USARTx_DMA_TX_Config(DMA1_Channel4,(u32)&USART1->DR,(u32)SendBuff,len);
-	USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);                              //使能串口DMA发送
+	USARTx_DMA_TX_Config(DMA1_Channel4,(u32)&USART2->DR,(u32)SendBuff,len);
+	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);                              //使能串口DMA发送
 	DMA_Cmd(DMA1_Channel4, ENABLE);                                             //使能DMA传输
 }
 

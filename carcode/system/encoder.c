@@ -1,5 +1,4 @@
-#include "encoder.h"
-#include "stm32f10x_gpio.h"
+#include "sys.h"
 //TIM3  PA6 PA7
 void Encoder_A_init(void)
 {
@@ -9,7 +8,6 @@ void Encoder_A_init(void)
 
     //PA6 ch1, PA7 ch2 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
     GPIO_StructInit(&GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;         
@@ -48,7 +46,6 @@ void Encoder_B_init(void)
     TIM_ICInitTypeDef TIM_ICInitStructure;      
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 
     GPIO_StructInit(&GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;         

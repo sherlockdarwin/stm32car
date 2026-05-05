@@ -1,17 +1,14 @@
-#include "stm32f10x.h"                  // Device header
-#include "carmotor.h"
+#include "sys.h"
 
 void Motor_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	//BIN PB3 PB4
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE); //使能PB端口时钟
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_4;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;      //推挽输出
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;     //50M
     GPIO_Init(GPIOB, &GPIO_InitStructure);					      //根据设定参数初始化GPIOB 
 	//AIN PA4 PA5 STBY PA12
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); //使能PA端口时钟
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5|GPIO_Pin_4|GPIO_Pin_12;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;      //推挽输出
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;     //50M
@@ -26,7 +23,6 @@ void PWM_Init(void)
 	TIM_TimeBaseInitTypeDef TIM_timeBaseInitStructure;
 	TIM_OCInitTypeDef TIM_OCInitStructure;
 		
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO,ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);	
     
 	GPIO_initStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1;
@@ -96,9 +92,9 @@ void Set_Pwm(int motor_left,int motor_right)
 }
 
 
-int PWM_Limit(int IN,int max,int min)
+static inline float PWM_Limit(float IN,float max,float min)
 {
-	int OUT = IN;
+	float OUT = IN;
 	if(OUT>max) OUT = max;
 	if(OUT<min) OUT = min;
 	return OUT;

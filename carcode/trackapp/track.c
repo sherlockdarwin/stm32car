@@ -1,5 +1,4 @@
-#include "track.h"
-#include "trackusart.h"
+#include "sys.h"
 
 extern uint16_t sensor_data[8];
 line_following line_controller;
@@ -29,17 +28,6 @@ void line_following_init(line_following* controller)
     controller->motor_locked = true;  // 上电默认锁定电机 | lock motors on power-up
 }
 
-static inline float clamp_float(float value, float min_val, float max_val) {
-    if (value < min_val) return min_val;
-    if (value > max_val) return max_val;
-    return value;
-}
-
-static inline int16_t clamp_int16(int16_t value, int16_t min_val, int16_t max_val) {
-    if (value < min_val) return min_val;
-    if (value > max_val) return max_val;
-    return value;
-}
 
 bool check_sensors_safe(line_following* controller, uint16_t* sensor_values) {
 // 上电安全锁检查，当传感器全亮或全灭时不启动小车，防止乱跑
@@ -100,7 +88,7 @@ float pid_control(line_following* controller, float error)
 
     // 积分项，使用动态限幅 / Integral term with dynamic limit
     controller->integral += error;
-    controller->integral = clamp_float(controller->integral, -integral_limit, integral_limit);
+    controller->integral = PWM_Limit(controller->integral, -integral_limit, integral_limit);
 
     // 微分项 / Derivative term
     float derivative = error - controller->last_error;
@@ -119,12 +107,12 @@ float pid_control(line_following* controller, float error)
 void differential_speed_control(line_following* controller, float pid_output, int16_t* left_speed, int16_t* right_speed)
 {
 
-    int16_t left = controller->base_speed + (int16_t)pid_output;
-    int16_t right = controller->base_speed - (int16_t)pid_output;
+    float left = controller->base_speed + pid_output;
+    float right = controller->base_speed - pid_output;
 
     // 速度限制 / Speed limit
-    *left_speed = clamp_int16(left, -controller->max_speed, controller->max_speed);
-    *right_speed = clamp_int16(right, -controller->max_speed, controller->max_speed);
+    *left_speed = PWM_Limit(left, -controller->max_speed, controller->max_speed);
+    *right_speed = PWM_Limit(right, -controller->max_speed, controller->max_speed);
 }
 
 void follow_line(line_following* controller, uint16_t* sensor_values, uint16_t line_raw_value)

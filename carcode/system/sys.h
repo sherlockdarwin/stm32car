@@ -15,13 +15,25 @@ typedef unsigned char bool;
 #define false 0
 
 
-#include "carmotor.h"
-#include "trackusart.h"
-#include "track.h"
-#include "motorusart.h"
-#include "encoder.h"
+#include "carmotor.h"     //电机基础设置。设置速度等等
+#include "trackusart.h"   //将灰度传感器数据读入数组sensor_data[8]
+#include "track.h"   //循迹模块
+#include "motorusart.h"  //将两个电机速度传给vofa。用的usart1
+#include "encoder.h"  //测量两个电机速度
+#include "JY61Pusart3.h"  //读取陀螺仪数据，获取航向角Yaw。用的usart3
+#include "Key.h"  //读取按键状态，获取是否按下按键。用的GPIOB的两个引脚
+#include "OLED.h"  //OLED显示模块，显示当前速度和航向角等信息
+#include "LED.h"  //LED模块，用于显示当前状态
+#include "OLED_Data.h"
+#include "OLED_Font.h"
+#include "Serial.h"  //串口模块，用于发送和接收数据。用的usart2
+#include "Timer.h"  //定时器模块，用于定时发送数据
+#include "Bluetooth.h"  //蓝牙模块，用于发送和接收数据
+#include "volight.h"  
 
 
+
+static line_following line_controller;
 
 #define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2)) 
 #define MEM_ADDR(addr)  *((volatile unsigned long  *)(addr)) 
@@ -67,7 +79,7 @@ typedef unsigned char bool;
 
 
 void SWJ_Config(void);
-
+void System_Init(void);
 void delay_us(unsigned int n);
 void delay_ms(unsigned int n);
 
