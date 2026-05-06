@@ -1,6 +1,5 @@
 #include "sys.h"
 
-extern uint16_t sensor_data[8];
 line_following line_controller;
 
 // 巡线参数初始化 Initialize line following parameters
@@ -104,7 +103,7 @@ float pid_control(line_following* controller, float error)
     return output;
 }
 
-void differential_speed_control(line_following* controller, float pid_output, int16_t* left_speed, int16_t* right_speed)
+void differential_speed_control(line_following* controller, float pid_output, uint16_t* left_speed, uint16_t* right_speed)
 {
 
     float left = controller->base_speed + pid_output;
@@ -136,7 +135,7 @@ void follow_line(line_following* controller, uint16_t* sensor_values, uint16_t l
     float pid_output = pid_control(controller, error);
 
     // 差速控制 / Differential speed control
-    int left_speed, right_speed;
+    uint16_t left_speed, right_speed;
     differential_speed_control(controller, pid_output, &left_speed, &right_speed);
 
     Set_Pwm(left_speed, right_speed);

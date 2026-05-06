@@ -80,19 +80,19 @@ void Set_Pwm(int motor_left,int motor_right)
 	
 	if(motor_right>0)
 	{
-		GPIO_SetBits(GPIOA, BIN1);
-		GPIO_ResetBits(GPIOA, BIN2);
+		GPIO_SetBits(GPIOB, BIN1);
+		GPIO_ResetBits(GPIOB, BIN2);
 	}
 	else
 	{
 		GPIO_SetBits(GPIOB, BIN2);
-		GPIO_ResetBits(GPIOA, BIN1);
+		GPIO_ResetBits(GPIOB, BIN1);
 	}
 	TIM2->CCR2 = myabs(motor_right);
 }
 
 
-static inline float PWM_Limit(float IN,float max,float min)
+float PWM_Limit(float IN,float max,float min)
 {
 	float OUT = IN;
 	if(OUT>max) OUT = max;

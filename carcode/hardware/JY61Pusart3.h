@@ -37,3 +37,4 @@ void vofa_send_vel(float v1, float v2);
 void JY61P_Send_Cmd(uint8_t *cmd, uint8_t len);
 void JY61P_Full_Init_Sequence(void);//初始化jy61p的全套流程，包含波特率切换和性能配置
 #endif
+

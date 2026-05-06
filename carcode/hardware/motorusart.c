@@ -3,27 +3,28 @@
 uint8_t data_to_send[64];   
 
 
-#pragma motorimport(__use_no_semihosting)
-struct M__FILE
+#pragma import(__use_no_semihosting)
+struct __FILE
 {
 	int a;
 };
  
-M_FILE __stdout;
-void M_sys_exit(int x)
+FILE __stdout;
+
+void _sys_exit(int x)
 {
 	
 }
-int M_fputc(int ch,M_FILE*f)
+int fputc(int ch,FILE*f)
 {
-    USART2->SR; 
-    USART_SendData(USART2, (unsigned char) ch);
-    while(USART_GetFlagStatus(USART2,USART_FLAG_TC)!=SET);
+    USART1->SR; 
+    USART_SendData(USART1, (unsigned char) ch);
+    while(USART_GetFlagStatus(USART1,USART_FLAG_TC)!=SET);
     return(ch);
 } 
 /* 串口2初始化设置 */
 /* 入口参数：波特率 */
-void usart2_init(uint32_t bound)
+void usart1_init(uint32_t bound)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 

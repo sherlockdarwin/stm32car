@@ -1,4 +1,4 @@
-#include "sys.h"                  // Device header
+#include "sys.h"              // Device header
 
 
 void SWJ_Config(void)

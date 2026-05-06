@@ -6,6 +6,7 @@
 #define PID_MOTOR_KI  (0.08f)
 #define PID_MOTOR_KD  (0.5f)
 
+
 typedef struct {
     // PID参数 PID Parameters
     float kp;               // 比例系数 Proportional coefficient
@@ -26,13 +27,12 @@ typedef struct {
 
 } line_following;
 
-extern line_following line_controller;
 
 void line_following_init(line_following* controller);
 bool check_sensors_safe(line_following* controller, uint16_t* sensor_values);
 float calculate_error(line_following* controller, uint16_t* sensor_values, uint16_t line_raw_value);    
 float pid_control(line_following* controller, float error);
-void differential_speed_control(line_following* controller, float pid_output, int16_t* left_speed, int16_t* right_speed);
+void differential_speed_control(line_following* controller, float pid_output, uint16_t* left_speed, uint16_t* right_speed);
 void follow_line(line_following* controller, uint16_t* sensor_values, uint16_t line_raw_value);
 
 

@@ -8,7 +8,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <math.h>
-#include <Time.h>
+#include <time.h>
+#include <stdarg.h>
 
 typedef unsigned char bool;
 #define true  1
@@ -24,16 +25,14 @@ typedef unsigned char bool;
 #include "Key.h"  //读取按键状态，获取是否按下按键。用的GPIOB的两个引脚
 #include "OLED.h"  //OLED显示模块，显示当前速度和航向角等信息
 #include "LED.h"  //LED模块，用于显示当前状态
-#include "OLED_Data.h"
-#include "OLED_Font.h"
+
 #include "Serial.h"  //串口模块，用于发送和接收数据。用的usart2
 #include "Timer.h"  //定时器模块，用于定时发送数据
 #include "Bluetooth.h"  //蓝牙模块，用于发送和接收数据
 #include "volight.h"  
 
-
-
-static line_following line_controller;
+extern uint16_t sensor_data[8];
+extern line_following line_controller;
 
 #define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2)) 
 #define MEM_ADDR(addr)  *((volatile unsigned long  *)(addr)) 

@@ -88,7 +88,7 @@ void Beep_Init(void)
 void Beep_Sound(void)
 {
   GPIOB->BRR  = GPIO_Pin_5;  
-  Delay_ms(200);
+  delay_ms(200);
   GPIOB->BSRR = GPIO_Pin_5;  
 }
 

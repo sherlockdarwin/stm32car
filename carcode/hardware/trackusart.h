@@ -7,9 +7,9 @@
 #define AD2_PIN          GPIO_Pin_13
 #define OUT_PIN          GPIO_Pin_11
 
-#define SENSOR_AD0_WRITE(state)  GPIO_WriteBit(GPIOA, AD0_PIN, (state) ? 1 : 0)
-#define SENSOR_AD1_WRITE(state)  GPIO_WriteBit(GPIOA, AD1_PIN, (state) ? 1 : 0)
-#define SENSOR_AD2_WRITE(state)  GPIO_WriteBit(GPIOA, AD2_PIN, (state) ? 1 : 0)
+#define SENSOR_AD0_WRITE(state)  GPIO_WriteBit(GPIOA, AD0_PIN, (state) ? Bit_SET : Bit_RESET)
+#define SENSOR_AD1_WRITE(state)  GPIO_WriteBit(GPIOA, AD1_PIN, (state) ? Bit_SET : Bit_RESET)
+#define SENSOR_AD2_WRITE(state)  GPIO_WriteBit(GPIOA, AD2_PIN, (state) ? Bit_SET : Bit_RESET)
 
 #define SENSOR_OUT_READ()        GPIO_ReadInputDataBit(GPIOA, OUT_PIN)
 

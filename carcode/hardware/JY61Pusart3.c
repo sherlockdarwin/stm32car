@@ -1,4 +1,4 @@
-#include "JY61Pusart3.h"
+#include "sys.h"
 uint8_t data_to_send[64];                  //发送数据缓存
 
 #pragma import(__use_no_semihosting)
@@ -28,14 +28,6 @@ GPIO_InitTypeDef GPIO_InitStructure;
 USART_InitTypeDef USART_InitStructure;
 
 NVIC_InitTypeDef NVIC_InitStructure;
-
-
-
-// 1. 开启时钟：注意 USART3 在 APB1，而 GPIOB 在 APB2
-
-RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
-
-RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 
 
 
@@ -164,7 +156,7 @@ void vofa_send_vel(float v1,float v2)
 } 
 uint8_t RxBuffer[11]; // 存放一帧数据
 uint8_t count = 0;    // 计数器
-float Yaw;            // 解析出的航向角变量
+volatile float Yaw;            // 解析出的航向角变量
 
 void USART3_IRQHandler(void)
 {
@@ -254,3 +246,4 @@ void JY61P_Full_Init_Sequence(void) {
     JY61P_Send_Cmd(JY_SAVE, 5);       
     delay_ms(500); // 留出时间写入Flash
 }
+
