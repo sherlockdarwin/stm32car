@@ -6,6 +6,7 @@ int main(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	SWJ_Config();
+	systick_init();
 	while(1)
 	{
 		

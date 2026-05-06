@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\user;.\start;.\library;.\hardware;.\system;.\trackapp</IncludePath>
+              <IncludePath>.\user;.\start;.\library;.\hardware;.\system;.\trackapp;.\goapp</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -829,6 +829,21 @@
               <FileName>track.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\trackapp\track.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>goapp</GroupName>
+          <Files>
+            <File>
+              <FileName>straight.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\goapp\straight.c</FilePath>
+            </File>
+            <File>
+              <FileName>straight.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\goapp\straight.h</FilePath>
             </File>
           </Files>
         </Group>

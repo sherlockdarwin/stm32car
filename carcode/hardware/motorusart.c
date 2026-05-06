@@ -2,19 +2,6 @@
 
 uint8_t data_to_send[64];   
 
-
-#pragma import(__use_no_semihosting)
-struct __FILE
-{
-	int a;
-};
- 
-FILE __stdout;
-
-void _sys_exit(int x)
-{
-	
-}
 int fputc(int ch,FILE*f)
 {
     USART1->SR; 
@@ -22,7 +9,7 @@ int fputc(int ch,FILE*f)
     while(USART_GetFlagStatus(USART1,USART_FLAG_TC)!=SET);
     return(ch);
 } 
-/* 串口2初始化设置 */
+/* 串口1初始化设置 */
 /* 入口参数：波特率 */
 void usart1_init(uint32_t bound)
 {
@@ -93,16 +80,11 @@ void USARTx_DMA_TX_Config(DMA_Channel_TypeDef* DMA_CHx,u32 peripheral_addr,u32 m
 **************************************************************************/
 void USARTx_DMA_SEND_DATA(u32 SendBuff,u16 len) 
 {
-	USARTx_DMA_TX_Config(DMA1_Channel4,(u32)&USART2->DR,(u32)SendBuff,len);
-	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);                              //使能串口DMA发送
+	USARTx_DMA_TX_Config(DMA1_Channel4,(u32)&USART1->DR,(u32)SendBuff,len);
+	USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);                              //使能串口DMA发送
 	DMA_Cmd(DMA1_Channel4, ENABLE);                                             //使能DMA传输
 }
 
-/* 将大于一个字节的数据拆分成多个字节发送 */
-#define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)    ) )
-#define BYTE1(dwTemp)       ( *( (char *)(&dwTemp) + 1) )
-#define BYTE2(dwTemp)       ( *( (char *)(&dwTemp) + 2) )
-#define BYTE3(dwTemp)       ( *( (char *)(&dwTemp) + 3) )
 
 /* 向VOFA+上位机速度 */
 void vofa_send_vel(float v1,float v2)
@@ -124,6 +106,7 @@ void vofa_send_vel(float v1,float v2)
 	USARTx_DMA_SEND_DATA((u32)(data_to_send),_cnt); //发送           
 } 
 uint8_t ch;
+
 void USART1_IRQHandler(void)                                 
 {      
     if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  

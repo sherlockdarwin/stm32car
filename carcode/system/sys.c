@@ -1,5 +1,19 @@
 #include "sys.h"              // Device header
 
+#pragma import(__use_no_semihosting)
+struct __FILE
+{
+	int a;
+};
+ 
+FILE __stdout;
+
+void _sys_exit(int x)
+{
+	
+}
+
+
 
 void SWJ_Config(void)
 {
@@ -10,6 +24,7 @@ void SWJ_Config(void)
 
 void System_Init(void)
 {
+
 
 }
 

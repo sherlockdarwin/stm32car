@@ -33,7 +33,7 @@ void USART3_DMA_SEND_DATA(uint32_t SendBuff, uint16_t len);
  * @param v1: 通道1数据 (例如当前角度)
  * @param v2: 通道2数据 (例如目标角度)
  */
-void vofa_send_vel(float v1, float v2); 
+void usart3_vofa_send_vel(float v1, float v2); 
 void JY61P_Send_Cmd(uint8_t *cmd, uint8_t len);
 void JY61P_Full_Init_Sequence(void);//初始化jy61p的全套流程，包含波特率切换和性能配置
 #endif

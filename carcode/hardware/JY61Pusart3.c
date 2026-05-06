@@ -1,17 +1,6 @@
 #include "sys.h"
-uint8_t data_to_send[64];                  //发送数据缓存
+uint8_t u3data_to_send[64];                  //发送数据缓存
 
-#pragma import(__use_no_semihosting)
-struct __FILE
-{
-	int a;
-};
- 
-FILE __stdout;
-void _sys_exit(int x)
-{
-	
-}
 int fputc(int ch,FILE *f)
 {
     USART3->SR; 
@@ -19,6 +8,7 @@ int fputc(int ch,FILE *f)
     while(USART_GetFlagStatus(USART3,USART_FLAG_TC)!=SET);
     return(ch);
 } 
+
 /* 串口3初始化设置 */
 /* 入口参数：波特率 */
 void usart3_init(uint32_t bound){
@@ -129,31 +119,27 @@ void USART3_DMA_SEND_DATA(u32 SendBuff, u16 len)
     DMA_Cmd(DMA1_Channel2, ENABLE);
 }
 
-/* 将大于一个字节的数据拆分成多个字节发送 */
-#define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)    ) )
-#define BYTE1(dwTemp)       ( *( (char *)(&dwTemp) + 1) )
-#define BYTE2(dwTemp)       ( *( (char *)(&dwTemp) + 2) )
-#define BYTE3(dwTemp)       ( *( (char *)(&dwTemp) + 3) )
 
 /* 向VOFA+上位机速度 */
-void vofa_send_vel(float v1,float v2)
+void usart3_vofa_send_vel(float v1,float v2)
 {
 	unsigned char _cnt = 0;
-	data_to_send[_cnt++] = BYTE0(v1);
-	data_to_send[_cnt++] = BYTE1(v1);
-	data_to_send[_cnt++] = BYTE2(v1);
-	data_to_send[_cnt++] = BYTE3(v1);
-	data_to_send[_cnt++] = BYTE0(v2);
-	data_to_send[_cnt++] = BYTE1(v2);
-	data_to_send[_cnt++] = BYTE2(v2);
-	data_to_send[_cnt++] = BYTE3(v2);
+	u3data_to_send[_cnt++] = BYTE0(v1);
+	u3data_to_send[_cnt++] = BYTE1(v1);
+	u3data_to_send[_cnt++] = BYTE2(v1);
+	u3data_to_send[_cnt++] = BYTE3(v1);
+	u3data_to_send[_cnt++] = BYTE0(v2);
+	u3data_to_send[_cnt++] = BYTE1(v2);
+	u3data_to_send[_cnt++] = BYTE2(v2);
+	u3data_to_send[_cnt++] = BYTE3(v2);
 	
-	data_to_send[_cnt++]=00;
-	data_to_send[_cnt++]=00;
-	data_to_send[_cnt++]=0X80;
-	data_to_send[_cnt++]=0X7F;
-	USART3_DMA_SEND_DATA((u32)(data_to_send),_cnt); //发送           
-} 
+	u3data_to_send[_cnt++]=00;
+	u3data_to_send[_cnt++]=00;
+	u3data_to_send[_cnt++]=0X80;
+	u3data_to_send[_cnt++]=0X7F;
+	USART3_DMA_SEND_DATA((u32)(u3data_to_send),_cnt); //发送           
+}
+
 uint8_t RxBuffer[11]; // 存放一帧数据
 uint8_t count = 0;    // 计数器
 volatile float Yaw;            // 解析出的航向角变量

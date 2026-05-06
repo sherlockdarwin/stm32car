@@ -7,7 +7,6 @@ static uint16_t cnt=0;
 
 void volight(void)
 {
-    SysTick_Configuration();
 	OLED_ShowNum(2, 5, Min, 2);		//不断刷新显示Num变量
 	OLED_ShowString(2, 7, ":");
 	OLED_ShowNum(2, 8, Sec, 2);
@@ -37,42 +36,6 @@ void PA8_Flash(void)     //PA8闪烁
 }
 
 
-void timer5_Init(void)
-{
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
-    TIM_InternalClockConfig(TIM5);
-
-	TIM_TimeBaseInitTypeDef timerTIM;
-	timerTIM.TIM_ClockDivision = TIM_CKD_DIV1;
-	timerTIM.TIM_CounterMode = TIM_CounterMode_Up;
-	timerTIM.TIM_Period = 10000 - 1;
-	timerTIM.TIM_Prescaler = 7200 - 1;
-	timerTIM.TIM_RepetitionCounter = 0;
-	TIM_TimeBaseInit(TIM5, &timerTIM);
-	
-	TIM_ClearFlag(TIM5, TIM_FLAG_Update);
-	TIM_ITConfig(TIM5, TIM_IT_Update, ENABLE);
-	
-	
-	NVIC_InitTypeDef timerNVIC;
-	timerNVIC.NVIC_IRQChannel = TIM5_IRQn;
-	timerNVIC.NVIC_IRQChannelCmd = ENABLE;
-	timerNVIC.NVIC_IRQChannelPreemptionPriority = 2;
-	timerNVIC.NVIC_IRQChannelSubPriority = 1;
-	NVIC_Init(&timerNVIC);
-	
-	TIM_Cmd(TIM5, ENABLE);
-}
-
-
-
-void SysTick_Configuration(void)
-{
-	// 配置内核中断优先级
-	NVIC_SetPriority(SysTick_IRQn, 0x00);
-	// 初始化1ms中断（72MHz）
-	SysTick_Config(72000);
-}
 
 void Beep_Init(void)
 {
@@ -120,7 +83,7 @@ void SysTick_Handler(void)
 	if(Timer_State == 1)
 	{
 		cnt++;
-		if(cnt >= 1000)  // 1秒
+		if(cnt >= 200)  // 1秒
 		{
 			cnt=0;
 			Sec=Sec+1;
