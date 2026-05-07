@@ -1,6 +1,13 @@
 #ifndef __OLED_H
 #define __OLED_H
 
+void OLED_I2C_Init(void);
+void OLED_I2C_Start(void);
+void OLED_I2C_Stop(void);
+void OLED_I2C_SendByte(uint8_t Byte);
+void OLED_WriteCommand(uint8_t Command);
+void OLED_WriteData(uint8_t Data);
+void OLED_SetCursor(uint8_t Y, uint8_t X);
 
 void OLED_Init(void);
 void OLED_Clear(void);

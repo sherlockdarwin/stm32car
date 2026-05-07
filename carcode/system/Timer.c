@@ -42,3 +42,4 @@ void Timer_Init(void)
 	/*TIM使能*/
 	TIM_Cmd(TIM6, DISABLE);			//使能TIM6，定时器开始运行
 }
+

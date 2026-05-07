@@ -24,6 +24,21 @@ void SWJ_Config(void)
 
 void System_Init(void)
 {
+	Motor_Init();
+	PWM_Init();
+	Encoder_A_init();
+	Encoder_B_init();
+	Timer_Init();
+	PA8_Init();
+	Beep_Init();
+	Sensor_Init();
+	usart1_init(115200); 
+	usart3_init(115200);
+	Key_Init();
+	LED_Init();
+	OLED_I2C_Init();
+	Serial_Init();
+	timer5_Init();
 
 
 }

@@ -9,6 +9,6 @@ int main(void)
 	systick_init();
 	while(1)
 	{
-		
+		System_Init();
 	}
 }

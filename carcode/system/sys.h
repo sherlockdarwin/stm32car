@@ -24,7 +24,8 @@ typedef unsigned char bool;
 #include "encoder.h"  //测量两个电机速度
 #include "JY61Pusart3.h"  //读取陀螺仪数据，获取航向角Yaw。用的usart3
 #include "Key.h"  //读取按键状态，获取是否按下按键。用的GPIOB的两个引脚
-#include "OLED.h"  //OLED显示模块，显示当前速度和航向角等信息
+#include "OLED.h"  //OLED显示模块
+#include "OLED_Font.h"
 #include "LED.h"  //LED模块，用于显示当前状态
 #include "Serial.h"  //串口模块，用于发送和接收数据。用的usart2
 #include "Timer.h"  //定时器模块，用于定时发送数据
