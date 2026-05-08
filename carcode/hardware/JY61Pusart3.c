@@ -199,7 +199,7 @@ void JY61P_Send_Cmd(uint8_t *cmd, uint8_t len) {
  * @note   Leader提示：此函数在 main 中调用，执行时请保持小车静止
  */
 void JY61P_Full_Init_Sequence(void) {
-    // 1. 尝试以默认 9600 波特率握手
+    // 1. 尝试以默认 9600 波特率
     usart3_init(9600); 
     delay_ms(500); 
 

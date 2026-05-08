@@ -25,15 +25,35 @@ typedef unsigned char bool;
 #include "JY61Pusart3.h"  //读取陀螺仪数据，获取航向角Yaw。用的usart3
 #include "Key.h"  //读取按键状态，获取是否按下按键。用的GPIOB的两个引脚
 #include "OLED.h"  //OLED显示模块
-#include "OLED_Font.h"
 #include "LED.h"  //LED模块，用于显示当前状态
 #include "Serial.h"  //串口模块，用于发送和接收数据。用的usart2
 #include "Timer.h"  //定时器模块，用于定时发送数据
 #include "Bluetooth.h"  //蓝牙模块，用于发送和接收数据
-#include "volight.h"  
+#include "volight.h"
 
+
+extern uint8_t KeyNum;
+
+extern uint8_t data_to_send[64];
+extern uint8_t u3data_to_send[64]; 
 extern uint16_t sensor_data[8];
+
+extern uint8_t RxBuffer[11]; // 存放一帧数据
+extern uint8_t count;    // 计数器
+extern volatile float Yaw;            // 解析出的航向角变量
+extern float target_yaw;
+extern float now_yaw;
+
+extern line_following straight_controller;
 extern line_following line_controller;
+
+extern char Serial_RxPacket[100];
+extern uint8_t Serial_RxFlag;
+
+extern uint16_t Sec;			//定义在定时器中断里自增的变量
+extern uint16_t Min;
+extern uint16_t Timer_State;
+extern uint16_t cnt;
 
 /* 将大于一个字节的数据拆分成多个字节发送 */
 #define BYTE0(dwTemp)       ( *( (char *)(&dwTemp)    ) )

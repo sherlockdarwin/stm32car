@@ -1,7 +1,7 @@
 #include "sys.h"
 
-extern char Serial_RxPacket[100];
-extern uint8_t Serial_RxFlag;
+char Serial_RxPacket[100];
+uint8_t Serial_RxFlag;
 
 void sendblue(void)
 {

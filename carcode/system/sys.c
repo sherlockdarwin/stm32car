@@ -33,7 +33,6 @@ void System_Init(void)
 	Beep_Init();
 	Sensor_Init();
 	usart1_init(115200); 
-	usart3_init(115200);
 	Key_Init();
 	LED_Init();
 	OLED_I2C_Init();
@@ -47,7 +46,7 @@ void System_Init(void)
 void systick_init(void)
 {
 	SystemCoreClockUpdate();
-	if (SysTick_Config(SystemCoreClock / 200))	        //1000 -> 1ms
+	if (SysTick_Config(SystemCoreClock / 200))
 	{ 
 		/* Capture error */ 
 		while (1);

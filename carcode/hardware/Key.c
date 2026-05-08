@@ -1,5 +1,7 @@
 #include "sys.h"
 
+uint8_t KeyNum = 0;		//定义变量，默认键码值为0
+
 /**
   * 函    数：按键初始化
   * 参    数：无
@@ -24,7 +26,6 @@ void Key_Init(void)
   */
 uint8_t Key_GetNum(void)
 {
-	uint8_t KeyNum = 0;		//定义变量，默认键码值为0
 	
 	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1) == 0)			//读PB1输入寄存器的状态，如果为0，则代表按键1按下
 	{

@@ -1,9 +1,9 @@
 #include "sys.h"
 
-static uint16_t Sec=0;			//定义在定时器中断里自增的变量
+uint16_t Sec=0;			//定义在定时器中断里自增的变量
 uint16_t Min=0;
-static uint16_t Timer_State=0;
-static uint16_t cnt=0;
+uint16_t Timer_State=0;
+uint16_t cnt=0;
 
 void volight(void)
 {

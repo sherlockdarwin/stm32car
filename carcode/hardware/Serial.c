@@ -1,7 +1,4 @@
-#include "sys.h"
-
-static char Serial_RxPacket[100];				//定义接收数据包数组，数据包格式"@MSG\r\n"
-static uint8_t Serial_RxFlag;					//定义接收数据包标志位
+#include "sys.h"				//定义接收数据包标志位
 
 /**
   * 函    数：串口初始化
