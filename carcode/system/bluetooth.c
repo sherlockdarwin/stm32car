@@ -7,10 +7,23 @@ void sendblue(void)
 {
 	if (Serial_RxFlag == 1)		//如果接收到数据包
 	{
-		float kp = line_controller.kp;
-		float ki = line_controller.ki;
-		float kd = line_controller.kd;
+		float kp;
+		float ki;
+		float kd;
 		
+		if(KeyNum == 2)
+		{
+			kp = line_controller.kp;
+			ki = line_controller.ki;
+			kd = line_controller.kd;			
+		}
+		if(KeyNum == 1)
+		{
+			kp = straight_controller.kp;
+			ki = straight_controller.ki;
+			kd = straight_controller.kd;			
+		}
+			
 		char * Tag = strtok(Serial_RxPacket,",");  //判断是否是按键数据包
 		if(strcmp(Tag,"key") == 0)
 		{
@@ -20,39 +33,47 @@ void sendblue(void)
 			if(strcmp(Name,"kp++")==0&&strcmp(Action,"up") == 0)
 			{
 				kp=kp+5;
-				line_controller.kp = kp;
 				printf("%f\r\n",kp);
 			}
 			else if(strcmp(Name,"kp--")==0&&strcmp(Action,"up") == 0)
 			{
 				kp=kp-5;
-				line_controller.kp = kp;
 				printf("%f\r\n",kp);
 			}
 			else if(strcmp(Name,"ki++")==0&&strcmp(Action,"up") == 0)
 			{
 				ki=ki+5;
-				line_controller.ki = ki;
 				printf("%f\r\n",ki);
 			}
 			else if(strcmp(Name,"ki--")==0&&strcmp(Action,"up") == 0)
 			{
 				ki=ki-5;
-				line_controller.ki = ki;
 				printf("%f\r\n",ki);
 			}
 			else if(strcmp(Name,"kd--")==0&&strcmp(Action,"up") == 0)
 			{
 				kd=kd-5;
-				line_controller.kd = kd;
 				printf("%f\r\n",kd);
 			}
 			else if(strcmp(Name,"kd++")==0&&strcmp(Action,"up") == 0)
 			{
 				kd=kd+5;
-				line_controller.kd = kd;
 				printf("%f\r\n",kd);
 			}
+			
+		if(KeyNum == 2)
+		{
+			line_controller.kp = kp;
+			line_controller.ki = ki;
+			line_controller.kd = kd;			
+		}
+		if(KeyNum == 1)
+		{
+			straight_controller.kp = kp;
+			straight_controller.ki = ki;
+			straight_controller.kd = kd;			
+		}
+			
 			printf("%s\r\n",Tag);
 			printf("%s\r\n",Name);
 			printf("%s\r\n",Action);

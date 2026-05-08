@@ -22,6 +22,9 @@ int main(void)
 	
 	while(1)
 	{
+		volight();
+		sendblue();
+		
 		if(KeyNum == 1)
 		{
 			Yaw_Straight_Control(target_yaw, &left_pwm, &right_pwm);
