@@ -9,6 +9,7 @@
 
 
 int Read_Encoder(uint8_t endcoder);
+int Read_Position(uint8_t encoder);
 
 void Encoder_A_init(void);
 void Encoder_B_init(void);

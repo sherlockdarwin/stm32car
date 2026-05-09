@@ -1,14 +1,6 @@
 #include "sys.h"
 uint8_t u3data_to_send[64];                  //发送数据缓存
 
-int fputc(int ch,FILE *f)
-{
-    USART3->SR; 
-    USART_SendData(USART3, (unsigned char) ch);
-    while(USART_GetFlagStatus(USART3,USART_FLAG_TC)!=SET);
-    return(ch);
-} 
-
 /* 串口3初始化设置 */
 /* 入口参数：波特率 */
 void usart3_init(uint32_t bound){

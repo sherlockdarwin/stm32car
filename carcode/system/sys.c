@@ -13,6 +13,26 @@ void _sys_exit(int x)
 	
 }
 
+/*
+int fputc(int ch,FILE *f)
+{
+	if(KeyNum == 1)
+	{
+		USART3->SR; 
+		USART_SendData(USART3, (unsigned char) ch);
+		while(USART_GetFlagStatus(USART3,USART_FLAG_TC)!=SET);
+		return(ch);	
+	}
+	if(KeyNum == 2)
+	{
+		USART1->SR; 
+		USART_SendData(USART1, (unsigned char) ch);
+		while(USART_GetFlagStatus(USART1,USART_FLAG_TC)!=SET);
+		return(ch);	
+	}
+    
+} 
+*/
 
 
 void SWJ_Config(void)

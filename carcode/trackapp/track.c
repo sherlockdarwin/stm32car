@@ -120,12 +120,20 @@ void follow_line(line_following* controller, uint16_t* sensor_values, uint16_t l
 
     // 检查安全锁 / Check safety lock
     if (controller->motor_locked) {
-        if (check_sensors_safe(controller, sensor_values)) {
+        if (safe) 
+		{
             controller->motor_locked = false;  // 解锁 / Unlock
-        } else {
+			TIM_Cmd(TIM5, DISABLE);
+			TIM_Cmd(TIM6, ENABLE);
+			Beep_Sound();
+			PA8_Flash();
+        } 
+		/*
+		else {
             Set_Pwm(0, 0);// 确保电机停止 / Ensure motors are stopped
             return;
         }
+		*/
     }
 
     // 计算偏差 / Calculate deviation

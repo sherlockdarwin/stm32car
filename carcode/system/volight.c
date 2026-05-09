@@ -10,10 +10,11 @@ void volight(void)
 	OLED_ShowNum(2, 5, Min, 2);		//不断刷新显示Num变量
 	OLED_ShowString(2, 7, ":");
 	OLED_ShowNum(2, 8, Sec, 2);
-	if(Min==1)
+	/*if(Min==1)
 	{		
 		Timer_Stop();
 	}
+	*/
 }
 
 void PA8_Init(void)         //PA8初始化
@@ -30,9 +31,7 @@ void PA8_Init(void)         //PA8初始化
 
 void PA8_Flash(void)     //PA8闪烁
 {
-	GPIO_ResetBits(GPIOA, GPIO_Pin_8);   // 亮
-	delay_ms(200);
-	GPIO_SetBits(GPIOA, GPIO_Pin_8); // 灭
+	GPIO_ResetBits(GPIOA, GPIO_Pin_8);   // 亮		
 }
 
 
@@ -48,16 +47,15 @@ void Beep_Init(void)
 	
 	GPIO_ResetBits(GPIOB, GPIO_Pin_5);
 }
+
 void Beep_Sound(void)
 {
-  GPIOB->BRR  = GPIO_Pin_5;  
-  delay_ms(200);
-  GPIOB->BSRR = GPIO_Pin_5;  
+	GPIOB->BRR  = GPIO_Pin_5;
 }
 
 
 void Timer_Start(void)        //计时开始函数，可以直接调用
-	{
+{
 		Sec=0;
 		Min=0;
 		Beep_Sound();
@@ -65,18 +63,18 @@ void Timer_Start(void)        //计时开始函数，可以直接调用
 		Timer_State=1;
   // 开启内核定时器
 		PA8_Flash();
-	}
+}
 	
-	void Timer_Stop(void)       //计时结束函数
+void Timer_Stop(void)       //计时结束函数
+{
+	if(Timer_State==1)        //确认计时状态
 	{
-		if(Timer_State==1)        //确认计时状态
-		{
-		//TIM_Cmd(TIM6, DISABLE);
+		TIM_Cmd(TIM6, ENABLE);
 		Beep_Sound();
-		Timer_State=0;      // 关闭定时器
 		PA8_Flash();
-		}
-    }
+		Timer_State=0;      // 关闭定时器
+	}
+}
 
 void SysTick_Handler(void)
 {

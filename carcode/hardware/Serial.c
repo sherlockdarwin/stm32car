@@ -189,3 +189,4 @@ void USART2_IRQHandler(void)
 		USART_ClearITPendingBit(USART2, USART_IT_RXNE);		//清除标志位
 	}
 }
+

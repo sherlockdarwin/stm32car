@@ -2,13 +2,6 @@
 
 uint8_t data_to_send[64];   
 
-int fputc(int ch,FILE*f)
-{
-    USART1->SR; 
-    USART_SendData(USART1, (unsigned char) ch);
-    while(USART_GetFlagStatus(USART1,USART_FLAG_TC)!=SET);
-    return(ch);
-} 
 /* 串口1初始化设置 */
 /* 入口参数：波特率 */
 void usart1_init(uint32_t bound)
@@ -44,7 +37,7 @@ void usart1_init(uint32_t bound)
 	NVIC_InitTypeDef NVIC_InitStructure;    
    
     NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;               //通道设置为串口1中断    
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;       //中断占先等级    
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;       //中断占先等级    
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;              //中断响应优先级    
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                 //打开中断    
     NVIC_Init(&NVIC_InitStructure);   

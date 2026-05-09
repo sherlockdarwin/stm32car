@@ -91,4 +91,16 @@ int Read_Encoder(uint8_t encoder)
 		return Encoder_TIM;
 }
 
+int Read_Position(uint8_t encoder)
+{
+   int Encoder_TIM;    
+   switch(encoder)
+	 {
+		 case 1:  Encoder_TIM= (short)TIM3 -> CNT; break;	
+		 case 2:  Encoder_TIM= (short)TIM4 -> CNT; break;	
+		 default: Encoder_TIM=0;
+	 }
+		return Encoder_TIM;
+}
+
 

@@ -22,7 +22,7 @@ void timer5_Init(void)
 	NVIC_InitTypeDef timerNVIC;
 	timerNVIC.NVIC_IRQChannel = TIM5_IRQn;
 	timerNVIC.NVIC_IRQChannelCmd = ENABLE;
-	timerNVIC.NVIC_IRQChannelPreemptionPriority = 2;
+	timerNVIC.NVIC_IRQChannelPreemptionPriority = 1;
 	timerNVIC.NVIC_IRQChannelSubPriority = 1;
 	NVIC_Init(&timerNVIC);
 	
@@ -35,6 +35,7 @@ void TIM5_IRQHandler(void)
 	if(TIM_GetITStatus(TIM5, TIM_IT_Update) == SET)
 	{
 		now_yaw = Yaw;
+		Yaw_Straight_Control(target_yaw, &left_pwm, &right_pwm);
 		TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
 	}
 }

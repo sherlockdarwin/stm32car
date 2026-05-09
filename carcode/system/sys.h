@@ -44,11 +44,19 @@ extern volatile float Yaw;            // 解析出的航向角变量
 extern float target_yaw;
 extern float now_yaw;
 
+extern uint16_t left_pwm, right_pwm;
+
 extern line_following straight_controller;
+
 extern line_following line_controller;
+extern bool safe;
 
 extern char Serial_RxPacket[100];
 extern uint8_t Serial_RxFlag;
+
+extern float get_Lenconder;//左编码器B
+extern float get_Renconder;//右编码器A
+extern float set_encoder;    //初始化设定值
 
 extern uint16_t Sec;			//定义在定时器中断里自增的变量
 extern uint16_t Min;
