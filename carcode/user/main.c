@@ -27,6 +27,8 @@ int main(void)
 	
 	line_following_init(&line_controller);
 	
+	KeyNum = Key_GetNum();
+	
 	while(1)
 	{
 		get_Renconder = Read_Encoder(ENCODER_A);
@@ -36,7 +38,9 @@ int main(void)
 		safe = check_sensors_safe(&line_controller, sensor_data);
 		
 		printf("[plot,%f,%f]",get_Lenconder,set_encoder);  //显示左轮波形图
-		volight();
+		volight();//OLED
+		
+		if(!KeyNum)KeyNum = Key_GetNum();
 		
 		if (Serial_RxFlag == 1)		//如果接收到数据包
 		{
@@ -135,6 +139,7 @@ int main(void)
 		{
 			if(safe == 0)
 			{
+				target_yaw = Yaw;
 				TIM_Cmd(TIM5, ENABLE);
 				TIM_Cmd(TIM6, ENABLE);
 				Beep_Sound();
