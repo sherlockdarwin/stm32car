@@ -63,7 +63,7 @@ void Yaw_Straight_Init(line_following* controller, int16_t base_speed, int16_t m
 
 void Yaw_Straight_Control(float target_yaw, uint16_t* left_speed, uint16_t* right_speed)
 {
-    float error = now_yaw - target_yaw;
+    float error = now_yaw - 450.0f; // 45度对应0度
 
     if (error > 180.0f)  error -= 360.0f;
     if (error < -180.0f) error += 360.0f;
