@@ -218,7 +218,7 @@ void JY61P_Full_Init_Sequence(void) {
     // 5. 静态校准指令
     // 发送后，传感器会采集当前加速度计数据作为“平地”参考
     JY61P_Send_Cmd(JY_CALI_ACC, 5); 
-    delay_ms(100);
+    delay_ms(2000);
 
     // 6. 保存配置并退出
     JY61P_Send_Cmd(JY_SAVE, 5);       

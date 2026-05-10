@@ -1,5 +1,7 @@
 #include "sys.h"				//定义接收数据包标志位
 
+// 加这行，声明外部函数
+extern void USARTx_DMA_TX_Config(DMA_Channel_TypeDef* DMA_CHx, uint32_t peripheral_addr, uint32_t memory_addr, uint16_t data_length);
 /**
   * 函    数：串口初始化
   * 参    数：无
@@ -190,3 +192,31 @@ void USART2_IRQHandler(void)
 	}
 }
 
+/* USART2 DMA 发送 - 用于VOFA+波形 */
+void Serial2_DMA_SEND_DATA(uint32_t SendBuff, uint16_t len)
+{
+    USARTx_DMA_TX_Config(DMA1_Channel7, (uint32_t)&USART2->DR, SendBuff, len);
+    USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
+    DMA_Cmd(DMA1_Channel7, ENABLE);
+}
+
+/* 通过USART2(蓝牙)发送VOFA+二进制波形数据 */
+void vofa_send_via_serial2(float v1, float v2)
+{
+    unsigned char _cnt = 0;
+    uint8_t buf[64];
+    buf[_cnt++] = BYTE0(v1);
+    buf[_cnt++] = BYTE1(v1);
+    buf[_cnt++] = BYTE2(v1);
+    buf[_cnt++] = BYTE3(v1);
+    buf[_cnt++] = BYTE0(v2);
+    buf[_cnt++] = BYTE1(v2);
+    buf[_cnt++] = BYTE2(v2);
+    buf[_cnt++] = BYTE3(v2);
+    
+    buf[_cnt++] = 0x00;
+    buf[_cnt++] = 0x00;
+    buf[_cnt++] = 0x80;
+    buf[_cnt++] = 0x7F;
+    Serial2_DMA_SEND_DATA((uint32_t)buf, _cnt);
+}
