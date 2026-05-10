@@ -58,7 +58,7 @@ void System_Init(void)
 	OLED_I2C_Init();
 	Serial_Init();
 	timer5_Init();
-
+	timer7_Init();//巡线中断
 
 }
 

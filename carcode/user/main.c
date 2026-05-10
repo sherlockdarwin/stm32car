@@ -8,6 +8,7 @@ float get_Renconder;//右编码器A
 float set_encoder=66;    //初始化设定值
 uint16_t left_pwm, right_pwm;
 bool safe;
+bool straight_flag = 0;
 
 int main(void)
 {
@@ -22,7 +23,6 @@ int main(void)
 	
 	JY61P_Full_Init_Sequence();
 	Yaw_Straight_Init(&straight_controller, 200, 255);
-	timer5_Init();
 
 	target_yaw = Yaw; //确定初始航向角
 	
@@ -83,12 +83,12 @@ int main(void)
 			}
 			else if(strcmp(Name,"ki++")==0&&strcmp(Action,"up") == 0)
 			{
-				ki=ki+5;
+				ki=ki+0.5;
 				printf("%f\r\n",ki);
 			}
 			else if(strcmp(Name,"ki--")==0&&strcmp(Action,"up") == 0)
 			{
-				ki=ki-5;
+				ki=ki-0.5;
 				printf("%f\r\n",ki);
 			}
 			else if(strcmp(Name,"kd--")==0&&strcmp(Action,"up") == 0)
@@ -136,21 +136,22 @@ int main(void)
 				Beep_Sound();
 				PA8_Flash();
 			}
-			Set_Pwm(left_pwm, right_pwm);
 		}
 		
 		if(KeyNum == 2)
 		{
 			if(safe == 0)
 			{
+				straight_flag = 1;
 				target_yaw = Yaw;
 				TIM_Cmd(TIM5, ENABLE);
 				TIM_Cmd(TIM6, ENABLE);
 				Beep_Sound();
 				PA8_Flash();
 			}
-			follow_line(&line_controller, sensor_data, 1);
+			
 		}
+		Set_Pwm(left_pwm, right_pwm);
 		
 	}
 }

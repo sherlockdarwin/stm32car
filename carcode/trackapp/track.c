@@ -120,8 +120,9 @@ void follow_line(line_following* controller, uint16_t* sensor_values, uint16_t l
 
     // 检查安全锁 / Check safety lock
     if (controller->motor_locked) {
-        if (safe) 
+        if (safe&&straight_flag) 
 		{
+			straight_flag = 0;
             controller->motor_locked = false;  // 解锁 / Unlock
 			TIM_Cmd(TIM5, DISABLE);
 			TIM_Cmd(TIM6, ENABLE);
@@ -143,9 +144,48 @@ void follow_line(line_following* controller, uint16_t* sensor_values, uint16_t l
     float pid_output = pid_control(controller, error);
 
     // 差速控制 / Differential speed control
-    uint16_t left_speed, right_speed;
-    differential_speed_control(controller, pid_output, &left_speed, &right_speed);
+    differential_speed_control(controller, pid_output, &left_pwm, &right_pwm);
 
-    Set_Pwm(left_speed, right_speed);
 }
+
+
+void timer7_Init(void)
+{
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, ENABLE);
+    TIM_InternalClockConfig(TIM7);
+
+	TIM_TimeBaseInitTypeDef timerTIM;
+	timerTIM.TIM_ClockDivision = TIM_CKD_DIV1;
+	timerTIM.TIM_CounterMode = TIM_CounterMode_Up;
+	timerTIM.TIM_Period = 200 - 1;
+	timerTIM.TIM_Prescaler = 7200 - 1;
+	timerTIM.TIM_RepetitionCounter = 0;
+	TIM_TimeBaseInit(TIM7, &timerTIM);
+	
+	TIM_ClearFlag(TIM7, TIM_FLAG_Update);
+	TIM_ITConfig(TIM7, TIM_IT_Update, ENABLE);
+	
+	
+	NVIC_InitTypeDef timerNVIC;
+	timerNVIC.NVIC_IRQChannel = TIM7_IRQn;
+	timerNVIC.NVIC_IRQChannelCmd = ENABLE;
+	timerNVIC.NVIC_IRQChannelPreemptionPriority = 1;
+	timerNVIC.NVIC_IRQChannelSubPriority = 1;
+	NVIC_Init(&timerNVIC);
+	
+	TIM_Cmd(TIM7, ENABLE);
+}
+
+
+void TIM7_IRQHandler(void)
+{
+	if(TIM_GetITStatus(TIM7, TIM_IT_Update) == SET)
+	{
+		follow_line(&line_controller, sensor_data, 1);
+		TIM_ClearITPendingBit(TIM7, TIM_IT_Update);
+		
+	}
+}
+
+
 
