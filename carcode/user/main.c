@@ -22,7 +22,8 @@ int main(void)
 	
 	JY61P_Full_Init_Sequence();
 	Yaw_Straight_Init(&straight_controller, 200, 255);
-	
+	timer5_Init();
+
 	target_yaw = Yaw; //确定初始航向角
 	
 	line_following_init(&line_controller);
@@ -37,7 +38,10 @@ int main(void)
 		Sensor_Read_All(sensor_data);
 		safe = check_sensors_safe(&line_controller, sensor_data);
 		
-		printf("[plot,%f,%f]",get_Lenconder,set_encoder);  //显示左轮波形图
+		if(KeyNum == 1)
+            vofa_send_via_serial2(Yaw, target_yaw);      // 走直线 → 看航向角
+        else if(KeyNum == 2)
+            vofa_send_via_serial2(get_Lenconder, set_encoder); // 循迹 → 看编码器
 		volight();//OLED
 		
 		if(!KeyNum)KeyNum = Key_GetNum();
