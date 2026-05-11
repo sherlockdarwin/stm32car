@@ -19,6 +19,7 @@ typedef unsigned char bool;
 #include "carmotor.h"     //电机基础设置。设置速度等等
 #include "trackusart.h"   //将灰度传感器数据读入数组sensor_data[8]
 #include "track.h"   //循迹模块
+#include "Xround.h"
 #include "straight.h"  //直走模块
 #include "motorusart.h"  //将两个电机速度传给vofa。用的usart1
 #include "encoder.h"  //测量两个电机速度

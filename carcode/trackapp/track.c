@@ -123,6 +123,7 @@ void follow_line(line_following* controller, uint16_t* sensor_values, uint16_t l
         if (safe&&straight_flag) 
 		{
 			straight_flag = 0;
+			count ++;
             controller->motor_locked = false;  // 解锁 / Unlock
 			TIM_Cmd(TIM5, DISABLE);
 			TIM_Cmd(TIM6, ENABLE);

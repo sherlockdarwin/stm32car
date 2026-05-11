@@ -13,7 +13,7 @@ bool straight_flag = 0;
 int main(void)
 {
 	
-	
+	count = 0;
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	SWJ_Config();
 	systick_init();
@@ -38,13 +38,14 @@ int main(void)
 		Sensor_Read_All(sensor_data);
 		safe = check_sensors_safe(&line_controller, sensor_data);
 		
-		if(KeyNum == 1)
-            vofa_send_via_serial2(Yaw, target_yaw);      // 走直线 → 看航向角
-        else if(KeyNum == 2)
-            vofa_send_via_serial2(get_Lenconder, set_encoder); // 循迹 → 看编码器
 		volight();//OLED
 		
 		if(!KeyNum)KeyNum = Key_GetNum();
+		
+		if(straight_flag)
+            vofa_send_via_serial2(Yaw, target_yaw);      // 走直线 → 看航向角
+        else if(!straight_flag)
+            vofa_send_via_serial2(get_Lenconder, set_encoder); // 循迹 → 看编码器
 		
 		if (Serial_RxFlag == 1)		//如果接收到数据包
 		{
@@ -52,13 +53,13 @@ int main(void)
 			float ki;
 			float kd;
 		
-			if(KeyNum == 2)
+			if(!straight_flag)
 			{
 				kp = line_controller.kp;
 				ki = line_controller.ki;
 				kd = line_controller.kd;			
 			}
-			if(KeyNum == 1)
+			if(straight_flag)
 			{
 				kp = straight_controller.kp;
 				ki = straight_controller.ki;
@@ -93,22 +94,22 @@ int main(void)
 			}
 			else if(strcmp(Name,"kd--")==0&&strcmp(Action,"up") == 0)
 			{
-				kd=kd-5;
+				kd=kd-1;
 				printf("%f\r\n",kd);
 			}
 			else if(strcmp(Name,"kd++")==0&&strcmp(Action,"up") == 0)
 			{
-				kd=kd+5;
+				kd=kd+1;
 				printf("%f\r\n",kd);
 			}
 			
-			if(KeyNum == 2)
+			if(!straight_flag)
 			{
 				line_controller.kp = kp;
 				line_controller.ki = ki;
 				line_controller.kd = kd;			
 			}
-			if(KeyNum == 1)
+			if(straight_flag)
 			{
 				straight_controller.kp = kp;
 				straight_controller.ki = ki;
@@ -148,9 +149,38 @@ int main(void)
 				TIM_Cmd(TIM6, ENABLE);
 				Beep_Sound();
 				PA8_Flash();
+				if(count == 2)
+				{
+					TIM_Cmd(TIM5, DISABLE);
+					left_pwm = 0;
+					right_pwm = 0;
+					KeyNum = 0;
+				}//到A点停车
 			}
 			
 		}
+		
+		if(KeyNum == 3)
+		{
+			if(safe == 0)
+			{
+				straight_flag = 1;
+				target_yaw = Yaw;
+				TIM_Cmd(TIM1, ENABLE);
+				TIM_Cmd(TIM6, ENABLE);
+				Beep_Sound();
+				PA8_Flash();
+				if(count == 2)
+				{
+					TIM_Cmd(TIM1, DISABLE);
+					left_pwm = 0;
+					right_pwm = 0;
+					KeyNum = 0;
+				}//到A点停车
+			}
+			
+		}
+			
 		Set_Pwm(left_pwm, right_pwm);
 		
 	}

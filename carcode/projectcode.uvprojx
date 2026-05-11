@@ -830,6 +830,16 @@
               <FileType>5</FileType>
               <FilePath>.\trackapp\track.h</FilePath>
             </File>
+            <File>
+              <FileName>Xround.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\trackapp\Xround.c</FilePath>
+            </File>
+            <File>
+              <FileName>Xround.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\trackapp\Xround.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
