@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>STM32F103RC</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.2.2.0</PackID>
+          <PackID>Keil.STM32F1xx_DFP.2.3.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0xC000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -334,7 +334,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER</Define>
+              <Define>USE_STDPERIPH_DRIVER, STM32F10X_HD</Define>
               <Undefine></Undefine>
               <IncludePath>.\user;.\start;.\library;.\hardware;.\system;.\trackapp;.\goapp</IncludePath>
             </VariousControls>
@@ -381,9 +381,9 @@
           <GroupName>start</GroupName>
           <Files>
             <File>
-              <FileName>startup_stm32f10x_md.s</FileName>
+              <FileName>startup_stm32f10x_hd.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\start\startup_stm32f10x_md.s</FilePath>
+              <FilePath>.\start\startup_stm32f10x_hd.s</FilePath>
             </File>
             <File>
               <FileName>core_cm3.c</FileName>
@@ -706,16 +706,6 @@
               <FilePath>.\system\encoder.h</FilePath>
             </File>
             <File>
-              <FileName>bluetooth.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\system\bluetooth.c</FilePath>
-            </File>
-            <File>
-              <FileName>bluetooth.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\system\bluetooth.h</FilePath>
-            </File>
-            <File>
               <FileName>Timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\system\Timer.c</FilePath>
@@ -751,24 +741,14 @@
               <FilePath>.\hardware\trackusart.h</FilePath>
             </File>
             <File>
-              <FileName>motorusart.c</FileName>
+              <FileName>JY61Pusart1.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\hardware\motorusart.c</FilePath>
+              <FilePath>.\hardware\JY61Pusart1.c</FilePath>
             </File>
             <File>
-              <FileName>motorusart.h</FileName>
+              <FileName>JY61Pusart1.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\hardware\motorusart.h</FilePath>
-            </File>
-            <File>
-              <FileName>JY61Pusart3.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\hardware\JY61Pusart3.c</FilePath>
-            </File>
-            <File>
-              <FileName>JY61Pusart3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\hardware\JY61Pusart3.h</FilePath>
+              <FilePath>.\hardware\JY61Pusart1.h</FilePath>
             </File>
             <File>
               <FileName>Key.c</FileName>
@@ -799,16 +779,6 @@
               <FileName>OLED.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\hardware\OLED.h</FilePath>
-            </File>
-            <File>
-              <FileName>Serial.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\hardware\Serial.c</FilePath>
-            </File>
-            <File>
-              <FileName>Serial.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\hardware\Serial.h</FilePath>
             </File>
             <File>
               <FileName>OLED_Font.h</FileName>

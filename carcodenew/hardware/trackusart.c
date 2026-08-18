@@ -19,13 +19,22 @@ void Sensor_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;      // 推挽输出 Push-pull output
+    // 配置 AD0 (PA15) 为推挽输出
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
 
+    // 配置 AD1 (PB1)、AD2 (PB0) 为推挽输出
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+    // 配置 OUT (PA11) 为浮空输入
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING; // 浮空输入 Floating input
-	
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+
     GPIO_Init(GPIOA, &GPIO_InitStructure);
     
 }

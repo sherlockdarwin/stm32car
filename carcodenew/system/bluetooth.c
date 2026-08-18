@@ -1,3 +1,4 @@
+#if 0
 #include "sys.h"
 
 char Serial_RxPacket[100];
@@ -83,4 +84,5 @@ void sendblue(void)
 		Serial_RxFlag = 0;			//处理完成后，需要将接收数据包标志位清零，否则将无法接收后续数据包
 	}
 }
+#endif
 

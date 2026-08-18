@@ -1,6 +1,6 @@
 #include "sys.h"
 
-uint8_t KeyNum = 0;		//定义变量，默认键码值为0
+uint8_t KeyNum = 0;
 
 /**
   * 函    数：按键初始化
@@ -9,48 +9,43 @@ uint8_t KeyNum = 0;		//定义变量，默认键码值为0
   */
 void Key_Init(void)
 {
-	
-	/*GPIO初始化*/
 	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_11 |GPIO_Pin_12;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;			// 上拉输入: 按键一端接GND, 按下=低电平(0)
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);						//将PB1和PB11引脚初始化为上拉输入
+	GPIO_Init(GPIOB, &GPIO_InitStructure);					//PB10、PB11 上拉输入
 }
 
 /**
-  * 函    数：按键获取键码
+  * 函    数：按键获取键码(单次触发)
   * 参    数：无
-  * 返 回 值：按下按键的键码值，范围：0~2，返回0代表没有按键按下
-  * 注意事项：此函数是阻塞式操作，当按键按住不放时，函数会卡住，直到按键松手
+  * 返 回 值：1=PB10(开始/停止), 2=PB11(选择任务), 0=无按键
   */
 uint8_t Key_GetNum(void)
 {
-	
-	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1) == 0)			//读PB1输入寄存器的状态，如果为0，则代表按键1按下
-	{
-		delay_ms(20);											//延时消抖
-		while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1) == 0);	//等待按键松手
-		delay_ms(20);											//延时消抖
-		KeyNum = 1;												//置键码为1
-	}
-	
-	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 0)			//读PB11输入寄存器的状态，如果为0，则代表按键2按下
-	{
-		delay_ms(20);											//延时消抖
-		while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 0);	//等待按键松手
-		delay_ms(20);											//延时消抖
-		KeyNum = 2;												//置键码为2
-	}
-	
-	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == 0)			//读PB12输入寄存器的状态，如果为0，则代表按键1按下
-	{
-		delay_ms(20);											//延时消抖
-		while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_12) == 0);	//等待按键松手
-		delay_ms(20);											//延时消抖
-		KeyNum = 3;												//置键码为3
-	}
-	
-	return KeyNum;			//返回键码值，如果没有按键按下，所有if都不成立，则键码为默认值0
-}
+	uint8_t ret = 0;
 
+	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) == 0)		//PB10 按下
+	{
+		delay_ms(10);											//消抖
+		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) == 0)		//确认按下
+		{
+			ret = 1;
+			while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) == 0);	//等松手
+			delay_ms(10);
+		}
+	}
+
+	if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 0)		//PB11 按下
+	{
+		delay_ms(10);
+		if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 0)
+		{
+			ret = 2;
+			while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_11) == 0);
+			delay_ms(10);
+		}
+	}
+
+	return ret;
+}

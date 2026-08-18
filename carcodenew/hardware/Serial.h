@@ -1,3 +1,4 @@
+#if 0
 #ifndef __SERIAL_H
 #define __SERIAL_H
 
@@ -10,4 +11,5 @@ void Serial_SendNumber(uint32_t Number, uint8_t Length);
 void Serial_Printf(char *format, ...);
 void vofa_send_via_serial2(float v1, float v2);
 
+#endif
 #endif

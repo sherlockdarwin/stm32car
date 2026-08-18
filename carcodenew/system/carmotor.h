@@ -1,8 +1,8 @@
 #ifndef __CARMOTOR_H
-#define __CARMOTOR_H	
+#define __CARMOTOR_H
 
 
-#include <sys.h>	 
+#include <sys.h>
 #include "stm32f10x.h"
 
 #define BIN2   PBout(3)
@@ -15,9 +15,10 @@
 
 #define PWMA   TIM2->CCR1  //PA0
 #define PWMB   TIM2->CCR2  //PA1
+
 void PWM_Init(void);
 void Motor_Init(void);
 void Set_Pwm(int motor_left,int motor_right);
-int PWM_Limit(int IN,int max,int min);
+int PWM_Limit(int val, int min, int max);   // 限幅到 [min, max]
 int myabs(int a);
 #endif

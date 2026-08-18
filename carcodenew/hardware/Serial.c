@@ -1,3 +1,4 @@
+#if 0
 #include "sys.h"				//定义接收数据包标志位
 
 // 加这行，声明外部函数
@@ -220,3 +221,5 @@ void vofa_send_via_serial2(float v1, float v2)
     buf[_cnt++] = 0x7F;
     Serial2_DMA_SEND_DATA((uint32_t)buf, _cnt);
 }
+#endif
+

@@ -37,7 +37,8 @@ int fputc(int ch,FILE *f)
 
 void SWJ_Config(void)
 {
-	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);   // 使能AFIO时钟(remap需要)
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);   // 只关JTAG(释放PA15给AD0, PB3/PB4给电机), 保留SWD方便烧录
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3 | RCC_APB1Periph_USART2, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOA | RCC_APB2Periph_USART1, ENABLE);	
 }
@@ -51,13 +52,12 @@ void System_Init(void)
 	PA8_Init();
 	Beep_Init();
 	Sensor_Init();
-	usart1_init(115200); 
 	Key_Init();
 	//LED_Init();
-	OLED_I2C_Init();
-	Serial_Init();
+	OLED_Init();		//完整初始化OLED(包含开显示0xAF), 原来只调OLED_I2C_Init导致黑屏
 	timer5_Init();
-	timer7_Init();//巡线中断
+	timer1_Init();   //走圆弧(TIM1)
+	timer7_Init();   //巡线中断
 
 }
 

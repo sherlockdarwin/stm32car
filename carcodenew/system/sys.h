@@ -18,43 +18,35 @@ typedef unsigned char bool;
 
 #include "carmotor.h"     //电机基础设置。设置速度等等
 #include "trackusart.h"   //将灰度传感器数据读入数组sensor_data[8]
-#include "track.h"   //循迹模块
-#include "Xround.h"
-#include "straight.h"  //直走模块
-#include "motorusart.h"  //将两个电机速度传给vofa。用的usart1
-#include "encoder.h"  //测量两个电机速度
-#include "JY61Pusart3.h"  //读取陀螺仪数据，获取航向角Yaw。用的usart3
-#include "Key.h"  //读取按键状态，获取是否按下按键。用的GPIOB的两个引脚
-#include "OLED.h"  //OLED显示模块
-#include "LED.h"  //LED模块，用于显示当前状态
-#include "Serial.h"  //串口模块，用于发送和接收数据。用的usart2
-#include "Timer.h"  //定时器模块，用于定时发送数据
-#include "Bluetooth.h"  //蓝牙模块，用于发送和接收数据
+#include "track.h"        //循迹模块
+#include "Xround.h"       //走圆弧模块(TIM1)
+#include "straight.h"     //直走模块(TIM5)
+#include "encoder.h"      //测量两个电机速度
+#include "JY61Pusart1.h"  //读取陀螺仪数据，获取航向角Yaw。用的usart1
+#include "Key.h"          //读取按键状态。用的GPIOB的PB10/PB11
+#include "OLED.h"         //OLED显示模块
+#include "LED.h"          //LED模块，用于显示当前状态
+#include "Timer.h"        //定时器模块(TIM6计时/声光)
 #include "volight.h"
 
 
 extern uint8_t KeyNum;
+extern volatile uint8_t waypoint_count;    // 经过的路点/回线次数
 
-extern uint8_t data_to_send[64];
-extern uint8_t u3data_to_send[64]; 
 extern uint16_t sensor_data[8];
 
-extern uint8_t RxBuffer[11]; // 存放一帧数据
-extern uint8_t count;    // 计数器
-extern volatile float Yaw;            // 解析出的航向角变量
-extern float target_yaw;
-extern float now_yaw;
+extern volatile int16_t Yaw;          // 解析出的航向角(原始值)
+extern volatile int16_t target_yaw;
+extern int16_t now_yaw;
 
-extern uint16_t left_pwm, right_pwm;
+extern volatile int16_t left_pwm, right_pwm;
+extern volatile float dbg_line_error;   // 调试: 循迹偏差
 
 extern line_following straight_controller;
-
 extern line_following line_controller;
-extern bool safe;
-extern bool straight_flag;
-
-extern char Serial_RxPacket[100];
-extern uint8_t Serial_RxFlag;
+extern volatile bool safe;
+extern volatile bool straight_flag;
+extern volatile bool car_run;
 
 extern float get_Lenconder;//左编码器B
 extern float get_Renconder;//右编码器A

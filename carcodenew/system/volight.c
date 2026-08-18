@@ -50,7 +50,7 @@ void Beep_Init(void)
 
 void Beep_Sound(void)
 {
-	GPIOB->BRR  = GPIO_Pin_5;
+	GPIOB->BRR  = GPIO_Pin_5;   // PB5 拉低, 蜂鸣器响
 }
 
 
