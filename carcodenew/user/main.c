@@ -1,5 +1,5 @@
 #include "sys.h"
-
+//你好
 uint16_t sensor_data[8];
 volatile int16_t target_yaw;
 int16_t now_yaw;
@@ -127,7 +127,7 @@ int main(void)
 					if (!safe)              // 检测不到黑线 → 盲走
 					{
 						straight_flag = 1;
-						target_yaw = Yaw;   // 锁车当前朝向(切向角度), 不依赖陀螺仪测准180°
+						target_yaw = (int16_t)((int32_t)Yaw - 1456);   // 锁当前朝向, 减8°修正(8°≈1456原始值)(切向角度), 不依赖陀螺仪测准180°
 						straight_controller.last_error = 0.0f;   // 清PID状态, 消除微分踢
 						straight_controller.integral = 0.0f;
 						waypoint_count++;
